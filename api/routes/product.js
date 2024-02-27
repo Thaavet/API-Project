@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", getProducts);
 
-router.get("/:prodid", getProduct);
+router.get("/products/:name", getProduct);
 
 router.post(
 	"/",
@@ -21,7 +21,7 @@ router.post(
 );
 
 router.put(
-	"/:prodid",
+	"/:name",
 	celebrate({
 		[Segments.BODY]: Joi.object({
 			name: Joi.string()
@@ -32,6 +32,6 @@ router.put(
 );
 
 
-router.delete("/:prodid", deleteProduct);
+router.delete("/:name", deleteProduct);
 
 module.exports = router;

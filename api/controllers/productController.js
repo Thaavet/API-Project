@@ -11,17 +11,14 @@ async function getProducts(req, res, next) {
 
 async function getProduct(req, res, next) {
 	try {
-		const prodId = await req.params.prodid;
-		const label = `${String(prodId)[0].toUpperCase()}${String(prodId).slice(
-			1
-		)}`;
-
+		const name = req.params.name;
+		const label = name[0].toUpperCase() + name.slice(1);
 		const prodFound = await Product.findOne({ name: label });
-		if (prodFound !== null) {
+		if (prodFound) {
 			res.status(200).json(prodFound);
 		} else {
 			res.status(404).json({
-				message: `${prodId} not available`
+				message: `${name} not available`
 			});
 		}
 	} catch (error) {
@@ -52,10 +49,8 @@ async function postProduct(req, res, next) {
 async function putProduct(req, res, next) {
 	try {
 		const data = await req.body;
-		const prodId = await req.params.prodid;
-		const label = `${String(prodId)[0].toUpperCase()}${String(prodId).slice(
-			1
-		)}`;
+		const name = req.params.name;
+		const label = name[0].toUpperCase() + name.slice(1);
 		const productChanged = await Product.findOneAndUpdate(
 			{ name: label },
 			data,
@@ -71,18 +66,20 @@ async function putProduct(req, res, next) {
 
 async function deleteProduct(req, res, next) {
 	try {
-		const prodId = req.params.prodid;
-		const label = `${String(prodId)[0].toUpperCase()}${String(prodId).slice(
-			1
-		)}`;
-		const productRemoved = await Product.findOneAndDelete({
-			name: label
-		});
+	  const name = req.params.name;
+	  const label = name[0].toUpperCase() + name.slice(1);
+	  const productRemoved = await Product.findOneAndDelete({ name: label });
+	  if (productRemoved !== null) {
 		res.status(200).json(productRemoved);
+	  } else {
+		res.status(404).json({
+		  message: `${name} not available`
+		});
+	  }
 	} catch (error) {
-		next(error);
+	  next(error);
 	}
-}
+  }
 
 module.exports = {
 	getProducts,
