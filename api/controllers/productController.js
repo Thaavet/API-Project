@@ -1,6 +1,6 @@
 const Product = require("../models/Product");
 
-async function getAllProducts(req, res, next) {
+async function getProducts(req, res, next) {
 	try {
 		const savedProducts = await Product.find({});
 		res.status(200).json(savedProducts);
@@ -9,7 +9,7 @@ async function getAllProducts(req, res, next) {
 	}
 }
 
-async function getOneProduct(req, res, next) {
+async function getProduct(req, res, next) {
 	try {
 		const prodId = await req.params.prodid;
 		const label = `${String(prodId)[0].toUpperCase()}${String(prodId).slice(
@@ -21,7 +21,7 @@ async function getOneProduct(req, res, next) {
 			res.status(200).json(prodFound);
 		} else {
 			res.status(404).json({
-				message: `${prodId} not exists`
+				message: `${prodId} not available`
 			});
 		}
 	} catch (error) {
@@ -29,7 +29,7 @@ async function getOneProduct(req, res, next) {
 	}
 }
 
-async function postOneProduct(req, res, next) {
+async function postProduct(req, res, next) {
 	try {
 		const data = await req.body;
 		const productExists = await Product.findOne({
@@ -49,7 +49,7 @@ async function postOneProduct(req, res, next) {
 	}
 }
 
-async function putOneProduct(req, res, next) {
+async function putProduct(req, res, next) {
 	try {
 		const data = await req.body;
 		const prodId = await req.params.prodid;
@@ -69,7 +69,7 @@ async function putOneProduct(req, res, next) {
 	}
 }
 
-async function deleteOneProduct(req, res, next) {
+async function deleteProduct(req, res, next) {
 	try {
 		const prodId = req.params.prodid;
 		const label = `${String(prodId)[0].toUpperCase()}${String(prodId).slice(
@@ -85,9 +85,9 @@ async function deleteOneProduct(req, res, next) {
 }
 
 module.exports = {
-	getAllProducts,
-	getOneProduct,
-	postOneProduct,
-	putOneProduct,
-	deleteOneProduct
+	getProducts,
+	getProduct,
+	postProduct,
+	putProduct,
+	deleteProduct
 };
