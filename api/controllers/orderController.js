@@ -1,5 +1,5 @@
 const Order = require("../models/Order");
-const Class = require("../models/class"); // Corrected path
+
 
 exports.getAllOrders = async (req, res) => {
   try {

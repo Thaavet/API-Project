@@ -1,21 +1,12 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const { celebrate, Joi, errors, Segments } = require("celebrate");
-
+const { celebrate, Joi, Segments } = require("celebrate");
+const {getProducts,getProduct,postProduct,putProduct,deleteProduct} = require("../controllers/productController");
 const router = express.Router();
 
 
-const {
-	getAllProducts,
-	getOneProduct,
-	postOneProduct,
-	putOneProduct,
-	deleteOneProduct
-} = require("../controllers/productController");
+router.get("/", getProducts);
 
-router.get("/", getAllProducts);
-
-router.get("/:prodid", getOneProduct);
+router.get("/:prodid", getProduct);
 
 router.post(
 	"/",
@@ -24,7 +15,8 @@ router.post(
 			name: Joi.string().required()
 		})
 	}),
-	postOneProduct
+
+	postProduct
 
 );
 
@@ -35,10 +27,11 @@ router.put(
 			name: Joi.string()
 		})
 	}),
-	putOneProduct
+
+	putProduct
 );
 
 
-router.delete("/:prodid", deleteOneProduct);
+router.delete("/:prodid", deleteProduct);
 
 module.exports = router;
